@@ -3,20 +3,32 @@
   <h3>Add a link here</h3>
    <%= form_for :link, class: "form-group", id: "new-link", url: '/api/v1/links' do |f| %>
       <%= label_tag(:url, 'Url') %>
-      <%= url_field_tag(:url, class: 'url-tag') %>
+      <%= url_field_tag(:url, "Enter url...", class: 'url-tag') %>
       <%= label_tag(:title, 'Title') %>
-      <%= text_field_tag(:title, class: 'title-tag') %>
+      <%= text_field_tag(:title, "Enter title...", class: 'title-tag') %>
       <%= submit_tag 'Submit', class: 'submit'%>
    <% end %>
  </div>
 
+ <h2> Links </h2>
+
+ <input id="search" type="text" placeholder="Search for links" />
+ <button class="btn" id"filter-unread"> Show Unread </button>
+ <button class="btn" id"filter-read"> Show Read </button>
+ <button class="btn" id"show-everything"> Show Everything </button>
+
 <div class='links'>
   <% @links.each do |link| %>
-  <div class="card">
+  <div class="card", id="<%= link.id %>">
     <div class="container">
-      <br>Title: <%= link.title %></br>
-      <br>URL: <%= link_to link.url %> </br>
-      <br>Read?: <%= link.read %></br>
+      <br class="link-title"><%= link.title %></br>
+      <br class="link-url"><%= link_to link.url %> </br>
+      <br class="link-status"> Read? <%=link.read %> </br>
+      <% if !read?(link) %>
+        <button class="btn mark-read" id="read-status-<%=link.id%>"> Mark as Read</button>
+      <%else%>
+        <button class="btn mark-read" id="read-status-<%=link.id%>"> Mark as Unread</button>
+      <% end %>
       <%= link_to "Edit Link", edit_link_path(link), class: "btn" %>
     </div>
   </div>
