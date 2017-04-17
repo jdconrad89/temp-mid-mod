@@ -9,11 +9,11 @@ Rails.application.routes.draw do
   post '/login',                to: 'sessions#create'
   get '/logout',                to: 'sessions#destroy'
 
-  resources :links,             only: [:index, :create, :update, :edit]
+  resources :links,             only: [:index, :create, :edit, :update]
 
   namespace :api do
     namespace :v1 do
-      resources :links,         only: [:update]
+      resources :links,         only: [:update, :create, :index]
     end
   end
 end
