@@ -1,37 +1,23 @@
-<h3> Add a link here! </h3>
-
-<div class="col-6">
-  <%= form_for :link, class: "form-group", id: "new-link", url: '/links' do |f| %>
-
-    Url: <%= f.text_field :url, class: "form-input", id: "link-url" %>
-    Title: <%= f.text_field :title, class: "form-input", id: "link-title" %>
-    <%= f.submit "Submit", class: "btn" %>
-
+<p><%= button_to "Sign out", logout_path, method: :delete %> </p>
+<div class='submit-url'>
+  <h3>Add a link</h3>
+  <%= form_tag() do %>
+    <%= label_tag(:url, 'Url') %>
+    <%= url_field_tag(:url, 'Enter Url', class: 'url-tag') %>
+    <%= label_tag(:title, 'Title') %>
+    <%= text_field_tag(:title, 'Enter title', class: 'title-tag') %>
+    <%= submit_tag 'Submit', class: 'submit'%>
   <% end %>
 </div>
 
-<div class="col-12">
-  <div class="list_of_links">
-    <table class="col-4 table-striped table-hover links-table">
-      <thead>
-        <th> Title </th>
-        <th> URL </th>
-        <th> Read or Unread </th>
-      </thead>
-      <tbody>
-        <% @links.each do |link| %>
-        <tr class="link" id="<%=link.id %>">
-          <td><%=link.title %></td>
-          <td><%= link_to link.url, target: "_blank" %></td>
-          <% if !read?(link) %>
-            <td><button class="btn mark-read" id="read-status-<%=link.id%>">Mark as Read</button></td>
-          <% else %>
-            <td><button class="btn mark-unread" id="read-status-<%=link.id%>">Mark as Unread</button></td>
-          <% end %>
-          <td><%= link_to "Edit Link", edit_link_path(link), class: "btn" %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+<div class='links'>
+  <% @links.each do |link| %>
+  <div class="card">
+    <div class="container">
+      <br>Title: <%= link.title %></br>
+      <br>URL: <%= link_to link.url %> </br>
+      <br>Read?: <%= link.read %></br>
+    </div>
   </div>
+  <% end %>
 </div>
