@@ -11,13 +11,17 @@
  </div>
 
  <input id="search" type="text" placeholder="Search for links" />
- <button class="btn" id"filter-unread"> Show Unread </button>
- <button class="btn" id"filter-read"> Show Read </button>
- <button class="btn" id"show-everything"> Show Everything </button>
+ <button class="btn", id="filter-unread"> Show Unread </button>
+ <button class="btn", id="filter-read"> Show Read </button>
+ <button class="btn", id="show-everything"> Show Everything </button>
 
 <div class='links'>
   <% @links.each do |link| %>
-  <div class="card", id="<%= link.id %>">
+  <% if read?(link) %>
+    <div class="card link-is-read ", id="<%= link.id %>">
+  <%else %>
+    <div class="card", id="<%= link.id %>">
+  <% end %>
     <div class="container">
       <br class="link-title"><%= link.title %></br>
       <br class="link-url"><%= link_to link.url %> </br>
