@@ -27,7 +27,7 @@ describe "seeing a form for links" do
       visit "/links"
 
       expect(page).to have_content("Add a link here")
-      expect(page).to have_content("Url:")
+      expect(page).to have_content("Url")
     end
 
     scenario "user submits a link" do
@@ -35,20 +35,20 @@ describe "seeing a form for links" do
 
       expect(Link.count).to eq(0)
 
-      fill_in "link[url]", with: "http://www.google.com"
-      fill_in "link[title]", with: "Google Ninja"
+      fill_in :url, with: "http://www.google.com"
+      fill_in :title, with: "Google Ninja"
 
       click_on "Submit"
 
-      expect(Link.count).to eq(1)
+      expect(page).to have_content("Google Ninja")
     end
 
     scenario "user submits a link without a title" do
       visit "/links"
       expect(Link.count).to eq(0)
 
-      fill_in "link[url]", with: "http://www.google.com"
-      fill_in "link[title]", with: ""
+      fill_in :url, with: "http://www.google.com"
+      fill_in :title, with: ""
 
       click_on "Submit"
 
@@ -61,8 +61,8 @@ describe "seeing a form for links" do
 
       expect(Link.count).to eq(0)
 
-      fill_in "link[url]", with: ""
-      fill_in "link[title]", with: "Google Ninja"
+      fill_in :url, with: ""
+      fill_in :title, with: "Google Ninja"
 
       click_on "Submit"
 
@@ -75,8 +75,8 @@ describe "seeing a form for links" do
 
       expect(Link.count).to eq(0)
 
-      fill_in "link[url]", with: "google.com"
-      fill_in "link[title]", with: "Google Ninja"
+      fill_in :url, with: "google.com"
+      fill_in :title, with: "Google Ninja"
 
       click_on "Submit"
 
@@ -89,8 +89,8 @@ describe "seeing a form for links" do
 
       expect(Link.count).to eq(0)
 
-      fill_in "link[url]", with: ""
-      fill_in "link[title]", with: ""
+      fill_in :url, with: ""
+      fill_in :title, with: ""
 
       click_on "Submit"
 

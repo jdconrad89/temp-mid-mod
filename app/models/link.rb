@@ -4,4 +4,16 @@ class Link < ActiveRecord::Base
 
 
   belongs_to :user
+
+  def title_missing?(params)
+    params["title"] == ""
+  end
+
+  def url_missing?(params)
+    params["url"] == ""
+  end
+
+  def title_and_url_missing?(params)
+    url_missing?(params) && title_missing?(params)
+  end
 end

@@ -8,8 +8,8 @@ describe "user creates a link and edits it" do
     fill_in "password", with: 'password'
     click_on ("Submit")
     visit "/links"
-    fill_in "link[url]", with: "http://www.google.com"
-    fill_in "link[title]", with: "Google Ninja"
+    fill_in :url, with: "http://www.google.com"
+    fill_in :title, with: "Google Ninja"
     click_on "Submit"
   end
 
@@ -26,6 +26,7 @@ describe "user creates a link and edits it" do
     visit "/"
 
     click_on "Edit Link"
+
     fill_in "link[url]", with: "http://www.google.com"
     fill_in "link[title]", with: "Google"
 
