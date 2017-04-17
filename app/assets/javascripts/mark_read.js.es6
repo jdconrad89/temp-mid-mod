@@ -26,7 +26,7 @@ function markLinkAsRead(event) {
     url: "/links/" + linkId,
     method: 'PATCH',
     data: { read: true },
-  })
+  }).then(sendLinkToHotReads(urlToSend))
 };
 
 function markLinkAsUnRead(event) {
@@ -39,3 +39,11 @@ function markLinkAsUnRead(event) {
     data: { read: false }
   }
 )};
+
+function sendLinkToHotReads(urlToSend) {
+  $.ajax({
+    type: "POST",
+    url: "https://morning-cliffs-48745.herokuapp.com/api/v1/links",
+    data: { urlToSend }
+  })
+}
