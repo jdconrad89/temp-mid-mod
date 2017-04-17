@@ -1,25 +1,41 @@
 $( document ).ready(function(){
-  $("body").on("click", ".mark-as-read", markAsRead)
+  $(".links").on("click", ".mark-read", changeLinkStatus)
 })
 
-function markAsRead(e) {
-  e.preventDefault();
+function changeLinkStatus(){
+  var linkId = parseInt(this.parentElement.parentElement.id);
+  var currentStatus = $('#read-status-' + linkId)[0].innerText
+  if(currentStatus === "Mark as Read"){
+    $('#read-status-' + linkId)[0].innerText = "Mark as Un-Read";
+    $(this).parent().parent().removeClass('link-is-unread')
+    $(this).parent().parent().addClass('link-is-read')
+    markLinkAsRead(this)
+  } else {
+    $('#read-status-' + linkId)[0].innerText = "Mark as Read";
+    $(this).parent().parent().removeClass('link-is-read')
+    $(this).parent().parent().addClass('link-is-unread')
+    markLinkAsUnRead(this)
+  }
+}
 
-  var $link = $(this).parents('.link');
-  var linkId = $link.data('link-id');
+function markLinkAsRead(event) {
+  var urlToSend = event.parentElement.children[3].innerText
+  var linkId = parseInt(event.parentElement.parentElement.id);
 
   $.ajax({
-    type: "PATCH",
-    url: "/api/v1/links/" + linkId,
+    url: "/links/" + linkId,
+    method: 'PATCH',
     data: { read: true },
-  }).then(updateLinkStatus)
-    .fail(displayFailure);
-}
+  })
+};
 
-function updateLinkStatus(link) {
-  $(`.link[data-link-id=${link.id}]`).find(".read-status").text(link.read);
-}
+function markLinkAsUnRead(event) {
+  var urlToSend = event.parentElement.children[3].innerText
+  var linkId = parseInt(event.parentElement.parentElement.id);
 
-function displayFailure(failureData){
-  console.log("FAILED attempt to update Link: " + failureData.responseText);
-}
+  $.ajax({
+    url: "/links/" + linkId,
+    method: 'PATCH',
+    data: { read: false }
+  }
+)};
