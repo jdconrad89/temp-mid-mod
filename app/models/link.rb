@@ -5,20 +5,30 @@ class Link < ActiveRecord::Base
 
   belongs_to :user
 
-  def title_missing?(params)
+  enum popularity: [:nothing, :hot, :top_link]
+
+  def self.title_missing?(params)
     params["title"] == ""
   end
 
-  def url_missing?(params)
+  def self.url_missing?(params)
     params["url"] == ""
   end
 
-  def title_and_url_missing?(params)
+  def self.title_and_url_missing?(params)
     url_missing?(params) && title_missing?(params)
   end
 
-  def self.find_hot_reads
-    conn = Faraday.get('https://morning-cliffs-48745.herokuapp.com//api/v1/links')
-    response = JSON.parse(conn.body, symoblize_names: true)
+  def self.correct_url?(url)
+    uri = URI.parse(url)
+    uri.is_a?(URI::HTTP) && !uri.host.nil?
+    rescue URI::InvalidURIError
+      false
   end
+
+  def self.update_read_status(link)
+    status = params[:read]
+    link.update(read: status)
+  end
+
 end

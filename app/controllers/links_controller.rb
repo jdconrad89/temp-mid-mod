@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   before_action :authorized?
 
   def index
-    @links = Link.where(user_id: current_user.id).order(id: :DESC)
+    @links = LinkPresenter.link_finder(current_user)
   end
 
   def edit
@@ -12,8 +12,8 @@ class LinksController < ApplicationController
   def update
     @link = Link.find(params[:id])
     if params[:link] == nil
-      update_read_status(@link)
-    elsif correct_url?(params["url"])
+      Link.update_read_status(@link)
+    elsif Link.correct_url?(params["link"]["url"])
       if @link.update(link_params)
         flash[:success] = "Your link has been updated!"
         redirect_to '/'
@@ -27,30 +27,16 @@ class LinksController < ApplicationController
     end
   end
 
-
-
   private
 
   def link_params
     params.require(:link).permit(:url, :title, :user_id)
   end
 
-  def correct_url?(url)
-    uri = URI.parse(url)
-    uri.is_a?(URI::HTTP) && !uri.host.nil?
-    rescue URI::InvalidURIError
-      false
-  end
-
   def incorrect_information(link)
     flash[:danger] = "You didn't enter a title" if Link.title_missing?(params)
-    flash[:danger] = "The url you have entered is incorrect" if !correct_url?(link)
+    flash[:danger] = "The url you have entered is incorrect" if Link.correct_url?(link["url"]) == true
     flash[:danger] = "You didn't enter a URL" if Link.url_missing?(params)
     flash[:danger] = "You didn't enter any information" if Link.title_and_url_missing?(params)
-  end
-
-  def update_read_status(link)
-    status = params[:read]
-    link.update(read: status)
   end
 end

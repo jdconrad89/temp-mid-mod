@@ -2,8 +2,9 @@ class Api::V1::LinksController < ApplicationController
 
   def create
     link = params["url"]
-    if correct_url?(link)
-      created_link = Link.new(url: params["url"], title: params["title"], user_id: current_user.id) if correct_url?(link)
+
+    if Link.correct_url?(link)
+      created_link = current_user.links.new(url: params["url"], title: params["title"]) if Link.correct_url?(link)
       if created_link.save
         flash[:danger] = "Link #{link["title"]} has been saved!"
         redirect_to '/'
@@ -28,29 +29,10 @@ class Api::V1::LinksController < ApplicationController
     params.permit(:id, :title, :url, :read)
   end
 
-  def correct_url?(url)
-    uri = URI.parse(url)
-    uri.is_a?(URI::HTTP) && !uri.host.nil?
-    rescue URI::InvalidURIError
-      false
-  end
-
-  def title_missing?
-    params["title"] == ""
-  end
-
-  def url_missing?
-    params["url"] == ""
-  end
-
-  def title_and_url_missing?
-    url_missing? && title_missing?
-  end
-
   def incorrect_information(link)
-    flash[:danger] = "You didn't enter a title" if title_missing?
-    flash[:danger] = "The url you have entered is incorrect" if !correct_url?(link)
-    flash[:danger] = "You didn't enter a URL" if url_missing?
-    flash[:danger] = "You didn't enter any information" if title_and_url_missing?
+    flash[:danger] = "You didn't enter a title" if Link.title_missing?
+    flash[:danger] = "The url you have entered is incorrect" if Link.correct_url?(link) == true
+    flash[:danger] = "You didn't enter a URL" if Link.url_missing?
+    flash[:danger] = "You didn't enter any information" if Link.title_and_url_missing?
   end
 end
