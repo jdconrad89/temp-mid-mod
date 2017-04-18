@@ -4,7 +4,7 @@ class LinkPresenter
   def self.link_finder(current_user)
     if current_user
       @all_links = current_user.links.order(created_at: :desc)
-      @hot_reads = JSON.parse(Faraday.get("https://morning-cliffs-48745.herokuapp.com//api/v1/links").body)
+      @hot_reads = JSON.parse(Faraday.get("https://morning-cliffs-48745.herokuapp.com/api/v1/links").body)
       @all_links.each do |link|
         if link.url == @hot_reads.first["url"]
           link.popularity = 2

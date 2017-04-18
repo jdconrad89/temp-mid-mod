@@ -42,7 +42,7 @@ function markLinkAsUnRead(event) {
 
 function sendLinkToHotReads(urlToSend) {
   $.ajax({
-    url: "https://morning-cliffs-48745.herokuapp.com//api/v1/links",
+    url: "https://morning-cliffs-48745.herokuapp.com/api/v1/links",
     method: "POST",
     data: { url: urlToSend }
   })
