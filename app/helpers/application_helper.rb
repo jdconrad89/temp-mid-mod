@@ -4,17 +4,10 @@ module ApplicationHelper
     link.read == true
   end
 
-  def top_read?(link)
-    hot_reads = Link.find_hot_reads
-    link["url"] == hot_reads.first["url"]
+  def link_popularity(link)
+    return "Top Link" if link.popularity == "top_link"
+    return "Hot"      if link.popularity == "hot"
+    return ""         if link.popularity == "nothing"
   end
 
-  def hot_read?(link)
-    hot_reads = Link.find_hot_reads
-    urls = []
-    hot_reads[1..-1].each do |hot_read|
-      urls << hot_read["url"]
-    end
-    urls.include?(link["url"])
-  end
 end
