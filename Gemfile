@@ -16,7 +16,8 @@ gem 'awesome_print'
 gem 'sprockets-es6'
 gem 'bcrypt', '~> 3.1.7'
 gem 'rails_12factor', group: :production
-
+gem 'rack-cors', :require => 'rack/cors'
+gem 'faraday'
 # gem 'unicorn'
 
 # gem 'capistrano-rails', group: :development
