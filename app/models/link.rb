@@ -16,4 +16,9 @@ class Link < ActiveRecord::Base
   def title_and_url_missing?(params)
     url_missing?(params) && title_missing?(params)
   end
+
+  def self.find_hot_reads
+    conn = Faraday.get('https://morning-cliffs-48745.herokuapp.com//api/v1/links')
+    response = JSON.parse(conn.body, symoblize_names: true)
+  end
 end
