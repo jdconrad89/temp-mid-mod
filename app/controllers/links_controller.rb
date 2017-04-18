@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   before_action :authorized?
 
   def index
-    @links = Link.where(user_id: current_user.id)
+    @links = Link.where(user_id: current_user.id).order(id: :DESC)
   end
 
   def edit
