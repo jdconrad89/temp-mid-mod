@@ -25,11 +25,7 @@
     <div class="container">
       <br class="link-title"><%= link.title %></br>
       <br class="link-url"><%= link_to link.url %> </br>
-      <% if top_read?(link) == true %>
-        <br class="top-read"> Top Link </br>
-      <% elsif hot_read?(link) == true %>
-        <br class="hot-read"> Hot </br>
-      <% end %>
+      <br class="link-popularity"><%= link_popularity(link) %>
       <br class="link-status"> Read? <%=link.read %> </br>
       <% if !read?(link) %>
         <button class="btn mark-read" id="read-status-<%=link.id%>"> Mark as Read</button>
