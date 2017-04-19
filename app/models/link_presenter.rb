@@ -17,7 +17,7 @@ class LinkPresenter
             end
           end
         else
-          @all_links = []
+          @all_links
         end
       else
         @all_links = []
