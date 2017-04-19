@@ -26,9 +26,10 @@ class Link < ActiveRecord::Base
       false
   end
 
-  def self.update_read_status(link)
+  def self.update_read_status(link, params)
     status = params[:read]
     link.update(read: status)
   end
+
 
 end
