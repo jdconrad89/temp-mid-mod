@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   before_action :authorized?
 
   def index
-    @links = LinkPresenter.link_finder
+    @links = LinkPresenter.link_finder(current_user)
   end
 
   def edit
