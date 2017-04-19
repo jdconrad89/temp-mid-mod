@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 describe "Links API" do
   it "can create a link" do
     user = User.create(email:'jason@conrad.com', password: 'password' )
@@ -8,6 +9,7 @@ describe "Links API" do
 
     post "/api/v1/links", params: {link: {title: "Google", url: "https://www.google.com/"}}
 
+    expect(response.status).to eq 201
     expect(Link.count).to eq 1
   end
 end
