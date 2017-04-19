@@ -12,7 +12,7 @@ class LinksController < ApplicationController
   def update
     @link = Link.find(params[:id])
     if params[:link] == nil
-      Link.update_read_status(@link)
+      Link.update_read_status(@link, params)
     elsif Link.correct_url?(params["link"]["url"])
       if @link.update(link_params)
         flash[:success] = "Your link has been updated!"
